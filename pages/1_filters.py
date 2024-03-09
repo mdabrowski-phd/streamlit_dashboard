@@ -54,7 +54,6 @@ for column in numeric_df.columns:
 st.divider()
 
 # Filter categoric columns
-
 st.subheader("Filter categoric values")
 
 categoric_df = st.session_state.df[selected_columns].select_dtypes("object")
@@ -74,6 +73,27 @@ for column in categoric_df.columns:
 
         df = df[df[column].isin(selected_categories) | (df[column].isna() if use_nans else False)]
         st.session_state.df = df
+
+
+# Filter boolean columns
+st.subheader("Filter boolean values")
+
+boolean_df = st.session_state.df[selected_columns].select_dtypes("bool")
+
+for column in boolean_df.columns:
+    df = st.session_state.df
+    unique_values = df[column].unique()
+
+    with st.expander(f"Filter {column} column"):
+        selected_categories = st.multiselect(
+            f"Select categories for {column}", options=unique_values,
+            default=unique_values)
+
+        use_nans = st.toggle("Use NaN values", key=f"{column} toggle", value=True)
+
+        df = df[df[column].isin(selected_categories) | (df[column].isna() if use_nans else False)]
+        st.session_state.df = df
+
 
 st.divider()
 st.markdown(f"Dataframe shape: {df.shape}")
