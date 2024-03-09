@@ -23,6 +23,13 @@ st.session_state.df = df
 
 st.divider()
 
+# Filter numeric columns
+st.subheader("Filter numeric value")
+numeric_df = df.select_dtypes("number")
+
+for column in numeric_df.columns:
+    with st.expander(f"Filter {column} column"):
+        st.markdown(column)
 
 
 
