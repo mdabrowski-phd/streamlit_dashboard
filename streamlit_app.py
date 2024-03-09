@@ -16,7 +16,7 @@ show_pages(
     ]
 )
 
-
+st.markdown(st.secrets["test_secret"])
 
 st.title("My first dashboard")
 st.markdown("#### This **dashboard** supports *markdown*")

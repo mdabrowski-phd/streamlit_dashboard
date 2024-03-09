@@ -5,6 +5,7 @@ from streamlit_extras.grid import grid
 
 st.set_page_config(page_title="Filters", page_icon="", layout="wide")
 
+
 st.markdown("""
     <style>
         div[data-testid="stMarkdownContainer"] > p {
@@ -12,6 +13,8 @@ st.markdown("""
         }
     </style>
     """, unsafe_allow_html=True)
+
+
 
 df = st.session_state["df"]
 orig_df = st.session_state["orig_df"]
