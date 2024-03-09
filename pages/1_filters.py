@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 
 st.set_page_config(page_title="Filters",
@@ -51,12 +52,29 @@ for column in numeric_df.columns:
 
         st.session_state.df = df
 st.divider()
+
+# Filter categoric columns
+
+st.subheader("Filter categoric values")
+
+categoric_df = st.session_state.df[selected_columns].select_dtypes("object")
+categoric_df = categoric_df.loc[:, categoric_df.nunique() < 8]
+
+for column in categoric_df.columns:
+    df = st.session_state.df
+    unique_values = df[column].unique()
+    unique_values = unique_values[~pd.isna(unique_values)]
+
+    with st.expander(f"Filter {column} column"):
+        selected_categories = st.multiselect(
+            f"Select categories for {column}", options=unique_values,
+            default=unique_values)
+
+        use_nans = st.toggle("Use NaN values", key=f"{column} toggle", value=True)
+
+        df = df[df[column].isin(selected_categories) | (df[column].isna() if use_nans else False)]
+        st.session_state.df = df
+
+st.divider()
+st.markdown(f"Dataframe shape: {df.shape}")
 st.dataframe(df)
-
-
-# if not hasattr(st.session_state, "data"):
-#     st.warning("No data uploaded")
-# else:
-#     st.dataframe(st.session_state.data)
-
-
