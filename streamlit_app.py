@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 
 st.set_page_config(page_title="My first dashboard",
@@ -21,5 +22,17 @@ st.success("Sukces")
 
 st.divider()
 
-st.balloons()
-st.snow()
+st.sidebar.title("Sidebar")
+st.sidebar.markdown("Tekst w markdown")
+st.sidebar.info("Informacja")
+
+st.sidebar.divider()
+
+csv_file = st.sidebar.file_uploader("Upload your file", type=[".csv"])
+
+if csv_file:  # is not None:
+    try:
+        df = pd.read_csv(csv_file)
+        st.session_state["data"] = df
+    except Exception as e:
+        st.sidebar.error(e)
