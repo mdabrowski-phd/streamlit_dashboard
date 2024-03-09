@@ -1,21 +1,22 @@
 import streamlit as st
 import pandas as pd
+from st_pages import Page, show_pages
 
 
 st.set_page_config(page_title="My first dashboard",
                    page_icon="📈")
 
 
-st.markdown(
-    """
-    <style>
-        section[data-testid="stSidebar"] {
-            width: 200px !important;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
+show_pages(
+    [
+        Page("streamlit_app.py", "Custom name (main)", "💻", is_section=False),
+        Page("pages/filters.py", "Filters", "🔍"),
+        Page("pages/charts.py", "Charts", "📊"),
+        Page("pages/test.py", "Test page", "📝"),
+    ]
 )
+
+
 
 st.title("My first dashboard")
 st.markdown("#### This **dashboard** supports *markdown*")
